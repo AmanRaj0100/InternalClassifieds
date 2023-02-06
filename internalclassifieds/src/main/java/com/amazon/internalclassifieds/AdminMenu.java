@@ -60,7 +60,7 @@ public void showMenu() {
 							break;
 							
 						case 2:
-							
+							userService.manageUser();
 							break;
 		
 						case 3:

@@ -48,18 +48,39 @@ MSSQL:
 	}
 
 
-	public void prettyPrint() {
+	public void prettyPrintForAdmin(Users user) {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("Name:\t\t"+name);
-		System.out.println("Phone:\t\t"+phone);
-		System.out.println("Email:\t\t"+email);
-		System.out.println("Address:\t"+address);
+		System.out.println("UserID:\t\t"+user.userID);
+		System.out.println("Name:\t\t"+user.name);
+		System.out.println("Phone:\t\t"+user.phone);
+		System.out.println("Email:\t\t"+user.email);
+		System.out.println("Address:\t"+user.address);
 		
 		String statusText = "";
 		
-		if(userStatus == 1) {
+		if(user.userStatus == 1) {
 			statusText = "Active";
-		}else if (userStatus == 0) {
+		}else if (user.userStatus == 0) {
+			statusText = "InActive";
+		}
+		
+		System.out.println("User Type:\t"+user.userType);
+		System.out.println("Status:\t\t"+statusText);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
+	}
+	
+	public void prettyPrintForUser(Users user) {
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("Name:\t\t"+user.name);
+		System.out.println("Phone:\t\t"+user.phone);
+		System.out.println("Email:\t\t"+user.email);
+		System.out.println("Address:\t"+user.address);
+		
+		String statusText = "";
+		
+		if(user.userStatus == 1) {
+			statusText = "Active";
+		}else if (user.userStatus == 0) {
 			statusText = "InActive";
 		}
 		
@@ -81,20 +102,30 @@ MSSQL:
 		if (!phone.isEmpty())
 			user.phone = phone;
 		
-		System.out.println("Enter your Email ID: ");
-		String email = scanner.nextLine();
-		if (!email.isEmpty())
-			user.email = email;
-		
-		System.out.println("Enter your Password: ");
-		String password = scanner.nextLine();
-		if (!password.isEmpty())
-			user.password = password;
-		
 		System.out.println("Enter your Address: ");
 		String address = scanner.nextLine();
 		if (!address.isEmpty())
 			user.address = address;
+		
+		if (user.email == null) {
+			
+            String email;
+            do {
+                System.out.println("Enter your Email ID: ");
+                email = scanner.nextLine();
+            }
+            while (email.isBlank() || email.isEmpty());
+            user.email = email;
+
+            String password;
+            do {
+            System.out.println("Enter your Password: ");
+            password = scanner.nextLine();
+            }
+            while (password.isBlank() || password.isEmpty());
+            user.password = password;
+
+        }
 	}
 
 	@Override

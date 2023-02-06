@@ -17,7 +17,7 @@ public class UserDAO implements DAO<Users> {
 	}
 
 	public int update(Users object) {
-		String sql = "UPDATE Users set name = '"+object.name+"', phone='"+object.phone+"', password='"+encrypt.encryptor(object.password)+"', address='"+object.address+"', userType='"+object.userType+"', userStatus='"+object.userStatus+"' WHERE email = '"+object.email+"'";
+		String sql = "UPDATE Users set name = '"+object.name+"', phone='"+object.phone+"', address='"+object.address+"', userType='"+object.userType+"', userStatus='"+object.userStatus+"' WHERE email = '"+object.email+"'";
 		return db.executeSQL(sql);
 	}
 

@@ -83,11 +83,11 @@ public class UserMenu extends Menu{
 			
 			while(true) {
 	        	try {
-		        	System.out.println("1: View Routes");
-		        	System.out.println("2: Apply For Bus Pass");
-		        	System.out.println("3: My Bus Pass");
-		        	System.out.println("4: Write Feedback/Bus Pass Suspension Request");
-		        	System.out.println("5: My Profile");
+		        	System.out.println("1: My Profile");
+		        	System.out.println("2: Post a Classified");
+		        	System.out.println("3: View all Classifieds");
+		        	System.out.println("4: Connect/Chat with other Users");
+					System.out.println("5: Testing userSession//Test other methods here");
 		        	System.out.println("6: Quit User App");
 		        	System.out.println("Select an Option");
 		        	
@@ -95,7 +95,15 @@ public class UserMenu extends Menu{
 		        	
 		        	switch (choice) {
 						case 1:
+							System.out.println("My Profile");
+							userService.displayUser();
 							
+							System.out.println("Do you wish to update Profile (1: Update 0: Cancel)");
+							choice = Integer.parseInt(scanner.nextLine());//scanner.nextInt();
+							
+							if(choice == 1) {
+								userService.update();	
+							}
 							break;
 							
 						case 2:
@@ -111,49 +119,9 @@ public class UserMenu extends Menu{
 							break;
 							
 						case 5:
-							System.out.println("My Profile");
-							user.prettyPrint();
-							
-							System.out.println("Do you wish to update Profile (1: Update 0: Cancel)");
-							choice = Integer.parseInt(scanner.nextLine());//scanner.nextInt();
-							
-							if(choice == 1) {
-								
-								//scanner.nextLine();
-								
-								System.out.println("Enter Your Name:");
-								String name = scanner.nextLine();
-								if(!name.isEmpty()) {
-									user.name = name;
-								}
-								
-								System.out.println("Enter Your Phone:");
-								String phone = scanner.nextLine();
-								if(!phone.isEmpty()) {
-									user.phone = phone;
-								}
-								
-								System.out.println("Enter Your Password:");
-								String password = scanner.nextLine();
-								if(!password.isEmpty()) {
-									user.password = password;
-								}
-								
-								System.out.println("Enter Your Address:");
-								String address = scanner.nextLine();
-								if(!address.isEmpty()) {
-									user.address = address;
-								}
-								
-								if(userService.updateUser(user)) {
-									System.out.println("Profile Updated Successfully");
-								}else {
-									System.err.println("Profile Update Failed...");
-								}
-								
-							}
+							//userService.checkUserStatus();
 							break;
-		
+							
 						case 6:
 							System.out.println("Thank You for Using User App !!");
 							quit = true;
