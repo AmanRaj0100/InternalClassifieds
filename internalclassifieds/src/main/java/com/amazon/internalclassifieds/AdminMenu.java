@@ -2,12 +2,16 @@ package com.amazon.internalclassifieds;
 
 import java.util.Date;
 
+import com.amazon.internalclassifieds.controller.CategoryManagement;
+import com.amazon.internalclassifieds.controller.ClassifiedManagement;
 import com.amazon.internalclassifieds.controller.UserManagement;
 import com.amazon.internalclassifieds.model.Users;
 
 public class AdminMenu extends Menu{
 
 	UserManagement userService = UserManagement.getInstnace();
+	CategoryManagement categoryService = CategoryManagement.getInstance();
+	ClassifiedManagement classifiedService = ClassifiedManagement.getInstance();
 	
 	
 	private static AdminMenu adminMenu =new AdminMenu();
@@ -46,28 +50,33 @@ public void showMenu() {
 			
 			while(true) {
 				try {
-		        	System.out.println("1: Manage Classifieds");
-		        	System.out.println("2: Manage Users");
-		        	System.out.println("3: Connect/Chat with other User (Sell/Buy and Pay)");
-		        	System.out.println("4: Quit Admin App");
+		        	System.out.println("1: Manage Users");
+		        	System.out.println("2: Manage Classifieds");
+		        	System.out.println("3: Manage Classifieds Category/Type");
+		        	System.out.println("4: Connect/Chat with other User (Sell/Buy and Pay)");
+		        	System.out.println("5: Quit Admin App");
 		        	System.out.println("Select an Option");
 		        	
 		        	int choice = Integer.parseInt(scanner.nextLine());//scanner.nextInt();
 		        	
 		        	switch (choice) {
 						case 1:
-							
+							userService.manageUser();
 							break;
 							
 						case 2:
-							userService.manageUser();
+							classifiedService.manageClassified();
 							break;
-		
-						case 3:
 							
+						case 3:
+							categoryService.manageCategory();
 							break;
 							
 						case 4:
+							
+							break;
+							
+						case 5:
 							System.out.println("Thank You for Using Admin App !!");
 							quit = true;
 							break;

@@ -54,10 +54,10 @@ public class UserManagement {
 		
 		while(true) {
 			try {
-				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 				System.out.println("1: Activate/Deactivate User");
 				System.out.println("2: Quit Managing User");
-				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 				System.out.println("Enter Your Choice: ");
 				int choice = Integer.parseInt(scanner.nextLine());//scanner.nextInt();
 				boolean quit = false;
@@ -100,7 +100,6 @@ public class UserManagement {
 			user.createdOn = u.createdOn;
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -137,11 +136,11 @@ public class UserManagement {
 
         //Update the details in SQL.
         if (userdao.update(userDetail.get(0))>0) {
-        	System.out.println("Profile Updated Successfully");
+        	System.out.println("User Profile Updated Successfully");
         	return true;
         }
         else {
-			System.err.println("Profile Update Failed...");
+			System.err.println("User Profile Update Failed...");
 			return false;
 		}
     }
