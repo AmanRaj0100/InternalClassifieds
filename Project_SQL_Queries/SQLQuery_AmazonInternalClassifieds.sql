@@ -30,7 +30,7 @@ drop table Category;
 
 select * from Category;
 
---Trigger to update "lastUpdatedOn" column on any updation on "Title" column.
+--Trigger to update "lastUpdatedOn" column on any updation.
 CREATE TRIGGER tgrAfterUpdateCategory ON Category
 AFTER UPDATE 
 AS
@@ -63,7 +63,7 @@ drop table Classifieds;
 
 select * from Classifieds;
 
---Trigger to update "lastUpdatedOn" column on any updation on "Title" column.
+--Trigger to update "lastUpdatedOn" column on any updation.
 CREATE TRIGGER tgrAfterUpdateClassifieds ON Classifieds
 AFTER UPDATE 
 AS
@@ -90,5 +90,17 @@ create table Orders(
 drop table Orders;
 
 select * from Orders;
+
+--Trigger to update "lastUpdatedOn" column on any updation.
+CREATE TRIGGER tgrAfterUpdateOrders ON Orders
+AFTER UPDATE 
+AS
+  UPDATE Orders set lastUpdatedOn = CURRENT_TIMESTAMP 
+  FROM 
+  Orders
+  INNER JOIN INSERTED 
+  ON Orders.orderID = INSERTED.orderID;
+
+DROP TRIGGER tgrAfterUpdateOrders
 
 -----------------------------------------------------------------------------------------

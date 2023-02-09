@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.amazon.internalclassifieds.controller.CategoryManagement;
 import com.amazon.internalclassifieds.controller.ClassifiedManagement;
+import com.amazon.internalclassifieds.controller.OrderManagement;
 import com.amazon.internalclassifieds.controller.UserManagement;
 import com.amazon.internalclassifieds.model.Users;
 
@@ -12,6 +13,7 @@ public class AdminMenu extends Menu{
 	UserManagement userService = UserManagement.getInstnace();
 	CategoryManagement categoryService = CategoryManagement.getInstance();
 	ClassifiedManagement classifiedService = ClassifiedManagement.getInstance();
+	OrderManagement orderService = OrderManagement.getInstance();
 	
 	
 	private static AdminMenu adminMenu =new AdminMenu();
@@ -53,7 +55,7 @@ public void showMenu() {
 		        	System.out.println("1: Manage Users");
 		        	System.out.println("2: Manage Classifieds");
 		        	System.out.println("3: Manage Classifieds Category/Type");
-		        	System.out.println("4: Connect/Chat with other User (Sell/Buy and Pay)");
+		        	System.out.println("4: Generate Transaction Reports");
 		        	System.out.println("5: Quit Admin App");
 		        	System.out.println("Select an Option");
 		        	
@@ -73,7 +75,7 @@ public void showMenu() {
 							break;
 							
 						case 4:
-							
+							orderService.orderReport();
 							break;
 							
 						case 5:

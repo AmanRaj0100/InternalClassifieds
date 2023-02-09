@@ -3,6 +3,7 @@ package com.amazon.internalclassifieds;
 import java.util.Date;
 
 import com.amazon.internalclassifieds.controller.ClassifiedManagement;
+import com.amazon.internalclassifieds.controller.OrderManagement;
 import com.amazon.internalclassifieds.controller.UserManagement;
 import com.amazon.internalclassifieds.model.Users;
 
@@ -11,6 +12,7 @@ public class UserMenu extends Menu{
 
 	UserManagement userService = UserManagement.getInstnace();
 	ClassifiedManagement classifiedService = ClassifiedManagement.getInstance();
+	OrderManagement orderService = OrderManagement.getInstance();
 	
 	private static UserMenu userMenu = new UserMenu();
 
@@ -86,11 +88,10 @@ public class UserMenu extends Menu{
 			while(true) {
 	        	try {
 		        	System.out.println("1: My Profile");
-		        	System.out.println("2: Post a new Classified");
-		        	System.out.println("3: List all Classifieds");
-		        	System.out.println("4: Connect/Chat with other Users");
-					System.out.println("5: Testing userSession//Test other methods here");
-		        	System.out.println("6: Quit User App");
+		        	System.out.println("2: Manage Your Classifieds");
+		        	System.out.println("3: List all Classifieds Up for Sale");
+		        	System.out.println("4: Connect with other Users & Buy/Sell");
+		        	System.out.println("5: Quit User App");
 		        	System.out.println("Select an Option");
 		        	
 		        	int choice = Integer.parseInt(scanner.nextLine());//scanner.nextInt();
@@ -109,7 +110,7 @@ public class UserMenu extends Menu{
 							break;
 							
 						case 2:
-							classifiedService.postClassified();
+							classifiedService.manageClassifiedForUser();
 							break;
 		
 						case 3:
@@ -117,14 +118,11 @@ public class UserMenu extends Menu{
 							break;
 
 						case 4:
-						
+							if(orderService.buyClassified())
+								System.out.println("Classified Bought");
 							break;
 							
 						case 5:
-							//userService.checkUserStatus();
-							break;
-							
-						case 6:
 							System.out.println("Thank You for Using User App !!");
 							quit = true;
 							break;

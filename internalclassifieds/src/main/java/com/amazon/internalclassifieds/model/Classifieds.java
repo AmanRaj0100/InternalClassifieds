@@ -1,6 +1,11 @@
 package com.amazon.internalclassifieds.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.amazon.internalclassifieds.controller.CategoryManagement;
+import com.amazon.internalclassifieds.db.CategoryDAO;
 
 /*
 MSSQL:
@@ -22,6 +27,10 @@ create table Classifieds(
 
 public class Classifieds {
 	
+	Categories category = new Categories();
+	CategoryDAO categorydao = new CategoryDAO();
+	CategoryManagement categoryService = CategoryManagement.getInstance();
+	
 		//Attributes
 		public int userID;
 		public int classifiedID;
@@ -37,8 +46,7 @@ public class Classifieds {
 		public String lastUpdatedOn;
 	
 	
-	public Classifieds() {
-		
+	public Classifieds() {	
 	}
 	
 		
@@ -81,6 +89,21 @@ public class Classifieds {
 		String brand = scanner.nextLine();
 		if (!brand.isEmpty())
 			classified.brand = brand;
+		//------------------------------------------------------------------------------
+		
+		List<Categories> categories = new ArrayList<Categories>();
+		categories = categorydao.retrieve();
+		for (Categories displayCategory : categories) {
+			System.out.print("{");
+			System.out.print(displayCategory.categoryID+":"+displayCategory.title);
+			System.out.println("}");
+		}
+		System.out.println("Enter the CategoryID for your Product: ");
+		String categoryID = scanner.nextLine();
+		if (!categoryID.isEmpty())
+			classified.categoryID = Integer.parseInt(categoryID);
+		
+		//------------------------------------------------------------------------------
 		
 		System.out.println("Enter Product's Condition: ");
 		String condition = scanner.nextLine();
@@ -137,6 +160,7 @@ public class Classifieds {
         System.out.println("Product Name:\t"+classifieds.productName);
         System.out.println("Brand:\t\t"+classifieds.brand);
         System.out.println("Description:\t"+classifieds.description);
+        System.out.println("Category ID:\t"+classifieds.categoryID);
         System.out.println("Condition:\t"+classifieds.condition);
         System.out.println("Price:\t\t"+classifieds.price);
         System.out.println("Pictures:\t"+classifieds.pictures);

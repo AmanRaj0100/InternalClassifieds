@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.amazon.internalclassifieds.userSession;
+import com.amazon.internalclassifieds.db.CategoryDAO;
 import com.amazon.internalclassifieds.db.ClassifiedDAO;
+import com.amazon.internalclassifieds.model.Categories;
 import com.amazon.internalclassifieds.model.Classifieds;
 
 public class ClassifiedManagement {
@@ -80,6 +82,54 @@ public class ClassifiedManagement {
 		}
 	}
 	
+	//For User
+	public void manageClassifiedForUser() {
+		while(true) {
+			try {
+				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				System.out.println("1: View your Classifieds");
+				System.out.println("2: Post a new Classified");
+				System.out.println("3: Update your Existing Classified");
+				System.out.println("4: Quit Managing Classified");
+				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				System.out.println("Enter Your Choice: ");
+				int choice = Integer.parseInt(scanner.nextLine());
+				boolean quit = false;
+				switch(choice) {
+				case 1:
+					displayUserClassified();
+					break;
+					
+				case 2:
+					if(postClassified())
+						System.out.println("Classified Added");
+					else
+						System.out.println("Classified Upload Failed");
+					break;
+					
+				case 3:
+					if(updateClassified())
+						System.out.println("Classified Updated");
+					else
+						System.out.println("Classified Updation Failed");
+					break;
+
+				case 4:
+					quit = true;
+					break;
+					
+				default:
+					
+				}
+				
+				if (quit)
+					break;
+			} catch (Exception e) {
+				System.err.println("Invalid Input"+e);
+			}
+		}
+	}
+	
 	
 	// For Admin
 	public boolean approvalOfClassified() {
@@ -139,11 +189,11 @@ public class ClassifiedManagement {
 			
 			// Remove all rejected Classifieds one by one
 			for (Classifieds classifiedToBeDeleted : classified)
-				if (classifieddao.delete(classifiedToBeDeleted)<=0)
+				if (classifieddao.delete(classifiedToBeDeleted)<=0) 
 					deletion = false;
 		}
 		
-		// Delete a particular Classified
+		// Delete a Particular Classified
 		else  if (choice == 2) {
 			
 			List<Classifieds> classified = new ArrayList<Classifieds>();
@@ -172,7 +222,8 @@ public class ClassifiedManagement {
 	
 	// For Admin and User
 	public boolean updateClassified() {
-	
+		
+		// Can only update those classifieds which was posted by themselves
 		// Retrieving all the classified from a certain user
 		String sql = "SELECT * from Classifieds WHERE userID = "+userSession.user.userID;
 		List<Classifieds> classifiedList = classifieddao.retrieve(sql);
@@ -187,6 +238,11 @@ public class ClassifiedManagement {
 		// Fetch the classified based on the classified ID
 		sql = "SELECT * FROM Classifieds WHERE classifiedID = " +classifiedID;
 		List <Classifieds> classifiedDetail = classifieddao.retrieve(sql);
+		
+		if (classifiedDetail.get(0).status == 3) {
+			System.err.println("You can't modify a Classified which is already Sold");
+			return false;
+		}
 		
 		//Ask the user to update the details
 		classified.getDetails(classifiedDetail.get(0));
@@ -212,25 +268,56 @@ public class ClassifiedManagement {
 		}
 	}
 	
+	// Display User's Classified
+	public void displayUserClassified() {
+		String sql = "Select * from Classifieds where userID= "+userSession.user.userID;
+		List <Classifieds> classifiedList = classifieddao.retrieve(sql);
+		
+		//Display the Details
+		for (Classifieds classified : classifiedList) {
+			classified.prettyPrintForUser(classified);
+		}
+	}
+	
 	// For both Admin and User
 	public boolean postClassified() {
 		
 		// Getting the user ID of current user
 		classified.userID = userSession.user.userID;
 		
-		UserManagement manageUser = UserManagement.getInstnace();
+		UserManagement userService = UserManagement.getInstnace();
 		
-		if (manageUser.checkUserStatus()) {
-		// Need to add CategoryID
+		// Check if the user is active or not.
+		// Only Active Users can post a classified. 
+		if (userService.checkUserStatus()) {
 		
 		// Asking the user to add the classified details
-			classified.getDetails(classified);
+			classified.getDetails(classified);			
 			
 			// Adding the classified to table
 			if (classifieddao.insert(classified)>0)
 				return true;
+			else 
+				return false;	
 		}
-			
-		return false;		
+		else {
+			System.out.println("You can't post a classified as you're not Active");
+			return false;
+		}			
+	}
+
+	// To set the price of apartment to 20000
+	public void setPrice() {
+		// Setting up price for houses for rent
+		// Retrieving classifieds which are houses
+		String sql = "SELECT * from Classifieds WHERE productName LIKE '%House%' OR productName LIKE '%Apartment%' OR headline LIKE '%House%' OR headline LIKE '%Apartment%' OR description LIKE '%House for rent%' OR description LIKE '%Apartment for rent%'";
+		List <Classifieds> classifiedList = new ArrayList<Classifieds>();
+		classifiedList = classifieddao.retrieve(sql);
+		
+		// Change the price of each house to 20000
+		for (Classifieds classified : classifiedList) {
+			classified.price = 20000;
+			classifieddao.update(classified);
+		}
 	}
 }
