@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.amazon.internalclassifieds.userSession;
-import com.amazon.internalclassifieds.db.CategoryDAO;
 import com.amazon.internalclassifieds.db.ClassifiedDAO;
-import com.amazon.internalclassifieds.model.Categories;
 import com.amazon.internalclassifieds.model.Classifieds;
 
 public class ClassifiedManagement {
@@ -285,7 +283,7 @@ public class ClassifiedManagement {
 		// Getting the user ID of current user
 		classified.userID = userSession.user.userID;
 		
-		UserManagement userService = UserManagement.getInstnace();
+		UserManagement userService = UserManagement.getInstance();
 		
 		// Check if the user is active or not.
 		// Only Active Users can post a classified. 

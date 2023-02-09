@@ -19,7 +19,7 @@ public class UserManagement {
 	
 	private static UserManagement manageUsers = new UserManagement();
 	
-	public static UserManagement getInstnace() {
+	public static UserManagement getInstance() {
 		return manageUsers;
 	}
 	
