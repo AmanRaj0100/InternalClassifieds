@@ -33,7 +33,7 @@ public class UserMenu extends Menu{
 	        	System.out.println("1: My Profile");
 	        	System.out.println("2: Manage Your Classifieds");
 	        	System.out.println("3: List all Classifieds Up for Sale");
-	        	System.out.println("4: Connect with other Users & Buy/Sell");
+	        	System.out.println("4: Buy/Sell Classifieds");
 	        	System.out.println("5: LogOut");
 	        	System.out.println("Select an Option");
 	        	
